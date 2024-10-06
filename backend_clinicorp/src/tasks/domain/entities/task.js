@@ -1,5 +1,5 @@
 class Task {
-  constructor({ id, description, responsable, status, computer }) {
+  constructor({ id, description, responsable, status, computer, createdAt }) {
     if (!description || !responsable || !status) {
       throw new Error("Description, responsable, and status are required.");
     }
@@ -9,6 +9,7 @@ class Task {
     this.responsable = responsable;
     this.status = status;
     this.computer = computer;
+    this.createdAt = createdAt || new Date().toISOString();
   }
 }
 

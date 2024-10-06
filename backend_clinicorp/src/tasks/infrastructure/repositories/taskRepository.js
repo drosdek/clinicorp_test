@@ -73,6 +73,18 @@ class TaskRepository {
     const updatedDoc = await taskRef.get();
     return updatedDoc.data();
   }
+
+  async deleteTask(id) {
+    const taskRef = db.collection("tasks").doc(id);
+    const doc = await taskRef.get();
+
+    if (!doc.exists) {
+      return null;
+    }
+
+    await taskRef.delete();
+    return true;
+  }
 }
 
 module.exports = new TaskRepository();

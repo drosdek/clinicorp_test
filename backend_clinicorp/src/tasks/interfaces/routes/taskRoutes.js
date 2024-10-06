@@ -239,4 +239,53 @@ router.get("/get-tasks", taskController.getTasks);
  */
 router.put("/tasks/:id", taskController.updateTask);
 
+/**
+ * @swagger
+ * /api/tasks/{id}:
+ *   delete:
+ *     summary: Remove uma tarefa existente
+ *     description: Remove uma tarefa pelo ID.
+ *     tags:
+ *       - Tarefas
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         description: ID da tarefa a ser removida
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: Tarefa removida com sucesso
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Task deleted successfully"
+ *       404:
+ *         description: Tarefa não encontrada
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Task not found"
+ *       500:
+ *         description: Erro interno do servidor
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *                   example: "Internal Server Error"
+ */
+router.delete("/tasks/:id", taskController.deleteTask);
+
 module.exports = router;

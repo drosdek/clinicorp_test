@@ -36,6 +36,15 @@ class TaskService {
 
     return await taskRepository.updateTask(id, updates);
   }
+
+  async deleteTask(id) {
+    if (!id) {
+      throw new Error("Task ID is required");
+    }
+
+    const deletedTask = await taskRepository.deleteTask(id);
+    return deletedTask;
+  }
 }
 
 module.exports = new TaskService();

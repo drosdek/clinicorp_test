@@ -75,3 +75,25 @@ exports.updateTask = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.deleteTask = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    if (!id) {
+      return res
+        .status(400)
+        .json({ message: "Invalid input: missing task ID" });
+    }
+
+    const deletedTask = await taskService.deleteTask(id);
+
+    if (!deletedTask) {
+      return res.status(404).json({ message: "Task not found" });
+    }
+
+    res.status(200).json({ message: "Task deleted successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
