@@ -1,0 +1,28 @@
+version: '3'
+
+services:
+  backend:
+    env_file:
+      - .env
+    build:
+      context: ./backend_clinicorp
+    ports:
+      - "8085:8085"
+    environment:
+      - NODE_ENV=production
+    volumes:
+      - ./backend_clinicorp:/app
+    networks:
+      - clinicorp-network
+
+  frontend:
+    build:
+      context: ./frontend_clinicorp
+    ports:
+      - "3000:80"
+    networks:
+      - clinicorp-network
+
+networks:
+  clinicorp-network:
+    driver: bridge
