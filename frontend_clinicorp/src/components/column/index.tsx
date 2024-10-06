@@ -3,29 +3,26 @@ import { useDrop } from 'react-dnd';
 import Task from '../task';
 import { Paper, Typography } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-
-interface Task {
-    id: string;
-    description: string;
-    responsable: string;
-    status: 'todo' | 'doing' | 'done';
-}
+import { ITask } from '../../pages/dashboard/interfaces/task.interface';
 
 interface ColumnProps {
     status: 'todo' | 'doing' | 'done';
-    tasks: Task[];
+    tasks: ITask[];
     onTaskDrop: (taskId: string, newStatus: 'todo' | 'doing' | 'done') => void;
+    onDelete: (taskId: string) => void;
 }
 
 const useStyles = makeStyles((theme: any) => ({
     column: {
         padding: theme.spacing(2),
-        minHeight: '100%',
-        minWidth: '100%',
         backgroundColor: '#f4f4f4',
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
+        height: "80vh",
+        overflowY: 'auto',
+        justifyContent: 'flex-start',
+        alignItems: 'center',
     },
     hoverOverlay: {
         position: 'absolute',
@@ -38,7 +35,7 @@ const useStyles = makeStyles((theme: any) => ({
     },
 }));
 
-const Column: React.FC<ColumnProps> = ({ status, tasks, onTaskDrop }) => {
+const Column: React.FC<ColumnProps> = ({ status, tasks, onTaskDrop, onDelete }) => {
     const classes = useStyles();
 
     const [{ isOver }, drop] = useDrop({
@@ -50,12 +47,12 @@ const Column: React.FC<ColumnProps> = ({ status, tasks, onTaskDrop }) => {
     });
 
     return (
-        <Paper className={classes.column} ref={drop} elevation={3}>
+        <Paper className={classes.column} ref={drop} >
             <Typography variant="h6" align="center">
                 {status.toUpperCase()}
             </Typography>
             {tasks.map((task) => (
-                <Task key={task.id} task={task} />
+                <Task key={task.id} task={task} onDelete={onDelete} />
             ))}
             {isOver && <div className={classes.hoverOverlay} />}
         </Paper>

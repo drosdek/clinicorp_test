@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
 import { Modal, Paper, TextField, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
+import { ITask } from '../../pages/dashboard/interfaces/task.interface';
 
 interface NewTaskModalProps {
     open: boolean;
     onClose: () => void;
-    onSubmit: (task: { description: string; responsable: string; status: 'todo' | 'doing' | 'done' }) => void;
+    onSubmit: (task: ITask) => void;
 }
 
 const useStyles = makeStyles((theme: any) => ({
@@ -26,24 +27,32 @@ const useStyles = makeStyles((theme: any) => ({
 
 const NewTaskModal: React.FC<NewTaskModalProps> = ({ open, onClose, onSubmit }) => {
     const classes = useStyles();
-    const [newTask, setNewTask] = useState<{ description: string; responsable: string; status: 'todo' | 'doing' | 'done' }>({
+    const [newTask, setNewTask] = useState<ITask>({
         description: '',
         responsable: '',
         status: 'todo',
     });
+    const [error, setError] = useState('');
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setNewTask((prevTask) => ({
             ...prevTask,
-            [name]: value as 'todo' | 'doing' | 'done', // Forçando o valor para o tipo correto
+            [name]: value as 'todo' | 'doing' | 'done',
         }));
     };
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (newTask.description.length < 5 || newTask.description.length > 255) {
+            setError('A descrição deve ter entre 5 e 255 caracteres.');
+            return;
+        }
+
+        setError('');
         onSubmit(newTask);
-        setNewTask({ description: '', responsable: '', status: 'todo' }); // Limpa o formulário após envio
+        setNewTask({ description: '', responsable: '', status: 'todo' });
         onClose();
     };
 
@@ -58,7 +67,11 @@ const NewTaskModal: React.FC<NewTaskModalProps> = ({ open, onClose, onSubmit }) 
                         className={classes.formControl}
                         value={newTask.description}
                         onChange={handleInputChange}
-                        margin='normal'
+                        margin="normal"
+                        inputProps={{ minLength: 5, maxLength: 255 }}
+                        helperText={error || `Entre 5 e 255 caracteres (${newTask.description.length}/255)`}
+                        error={!!error}
+                        rows={3}
                     />
                     <TextField
                         label="Responsável"

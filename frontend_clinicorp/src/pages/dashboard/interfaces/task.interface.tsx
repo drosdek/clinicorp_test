@@ -1,7 +1,8 @@
 export interface ITask {
-    id: string;
+    id?: string;
     description: string;
     responsable: string;
     status: 'todo' | 'doing' | 'done';
-    computer: string;
+    computer?: string;
+    createdAt?: string;
 }
