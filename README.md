@@ -29,6 +29,19 @@ Este repositório contém uma aplicação completa para gerenciamento de tarefas
    cd clinicorp
    ```
 
+2. Crie o arquivo <code>.env</code> na pasta raiz para as variáveis de ambiente do backend. Exemplo:
+
+   ```bash
+   FIREBASE_API_KEY=your-api-key
+   FIREBASE_AUTH_DOMAIN=your-auth-domain
+   FIREBASE_PROJECT_ID=your-project-id
+   FIREBASE_STORAGE_BUCKET=your-storage-bucket
+   FIREBASE_MESSAGING_SENDER_ID=your-sender-id
+   FIREBASE_APP_ID=your-app-id
+   ```
+
+um <code>.env-example</code> foi adicionado caso deseja utilizar o Banco de dados usado nos testes basta renomear para <code>.env</code>
+
 ## Rodando a Aplicação com Docker
 
 1. Construa e inicie os contêineres usando o Docker Compose:
